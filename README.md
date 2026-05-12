@@ -1,6 +1,6 @@
 # OpenBP HTTP Service for 1C:UTP
 
-[🇬🇧 English version](README.md)
+[🇺🇦 Українська версія](README_UA.md)
 
 ## Overview
 
