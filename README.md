@@ -21,6 +21,10 @@ Both modules expose the same API and differ only in the configuration-specific c
 | 1C:UTP (Trade Enterprise Management)             | [`http-services/UTP.bsl`](http-services/UTP.bsl)     |
 | 1C:UPP (Manufacturing Enterprise Management)     | [`http-services/UPP.bsl`](http-services/UPP.bsl)     |
 
+## Helper tools
+
+* [`external-data-processors/get-GUID.epf`](external-data-processors/get-GUID.epf) - an external data processor that returns the UUID of an infobase object. Use it to look up the UUID of the API user required in [Step 3](#step-3-configuring-user-access). Run it in 1C:Enterprise mode via **File → Open**.
+
 ## Features
 
 * ✅ RESTful API with JSON request/response format
@@ -90,7 +94,7 @@ Before installing this HTTP service, make sure you have:
 ### Step 3: Configuring User Access
 
 1. Create or identify a user account for API access
-2. Note the user's **UUID** (the **УникальныйИдентификатор()** function returns the uuid value for an object saved in the database)
+2. Note the user's **UUID** (the **УникальныйИдентификатор()** function returns the uuid value for an object saved in the database). Alternatively, open the [`external-data-processors/get-GUID.epf`](external-data-processors/get-GUID.epf) external data processor in 1C:Enterprise mode (**File → Open**) and get the UUID from there
 3. Make sure the user has the appropriate permissions:
 
    * Read/write access to catalogs: Counterparties, Items, Organizations, Warehouses
