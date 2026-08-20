@@ -1,16 +1,25 @@
-# OpenBP HTTP Service for 1C:UTP
+# OpenBP HTTP Services for 1C:UTP and 1C:UPP
 
 [🇺🇦 Українська версія](README_UA.md)
 
 ## Overview
 
-This repository is intended for a smooth transition from the 1C accounting system and the UTP configuration to the OpenBP platform. After installing the corresponding service, 1C will be able to automatically synchronize with OpenBP, ensuring seamless data exchange and gradual migration.
+This repository is intended for a smooth transition from the 1C accounting system (the UTP and UPP configurations) to the OpenBP platform. After installing the corresponding service, 1C will be able to automatically synchronize with OpenBP, ensuring seamless data exchange and gradual migration.
 
-The OpenBP HTTP service provides a RESTful API that exposes 1C:UTP documents and catalogs as JSON endpoints. This allows external systems (including OpenBP) to:
+The OpenBP HTTP service provides a RESTful API that exposes 1C documents and catalogs as JSON endpoints. This allows external systems (including OpenBP) to:
 
 * Query and retrieve catalog data (items, organizations, counterparties)
 * Create and update documents (goods receipts, arrivals)
 * Synchronize catalogs and transactions in real time
+
+## Available service modules
+
+Both modules expose the same API and differ only in the configuration-specific code. Pick the file that matches your configuration:
+
+| Configuration                                    | Module file                                          |
+| ------------------------------------------------ | ---------------------------------------------------- |
+| 1C:UTP (Trade Enterprise Management)             | [`http-services/UTP.bsl`](http-services/UTP.bsl)     |
+| 1C:UPP (Manufacturing Enterprise Management)     | [`http-services/UPP.bsl`](http-services/UPP.bsl)     |
 
 ## Features
 
@@ -26,7 +35,7 @@ The OpenBP HTTP service provides a RESTful API that exposes 1C:UTP documents and
 Before installing this HTTP service, make sure you have:
 
 1. **1C:Enterprise platform** version 8.3 or higher
-2. **1C:UTP configuration (Trade Enterprise Management)**
+2. **1C:UTP or 1C:UPP configuration**
 3. **Required 1C modules/subsystems**:
 
    * `ОбработкаJSON` - JSON processing module
@@ -40,7 +49,7 @@ Before installing this HTTP service, make sure you have:
 
 ### Step 1: Creating the HTTP Service
 
-1. Open the 1C:UTP configuration in **Configurator mode**
+1. Open your 1C:UTP or 1C:UPP configuration in **Configurator mode**
 
 2. In the Configurator, navigate to: **General → HTTP Services** (Общие → HTTP-сервисы)
 
@@ -50,7 +59,7 @@ Before installing this HTTP service, make sure you have:
    * **Root URL**: `openbp` (or your preferred path)
    * **Description**: "OpenBP integration service"
 
-4. Copy the entire contents from the [`openbp_HTTP.bsl`](openbp_HTTP.bsl) file
+4. Copy the entire contents of the module matching your configuration: [`http-services/UTP.bsl`](http-services/UTP.bsl) for 1C:UTP or [`http-services/UPP.bsl`](http-services/UPP.bsl) for 1C:UPP
 
 5. Paste it into the HTTP service module editor
 
