@@ -21,15 +21,11 @@ Both modules expose the same API and differ only in the configuration-specific c
 | 1C:UTP (Trade Enterprise Management)             | [`http-services/UTP.bsl`](http-services/UTP.bsl)     |
 | 1C:UPP (Manufacturing Enterprise Management)     | [`http-services/UPP.bsl`](http-services/UPP.bsl)     |
 
-## Helper tools
-
-* [`external-data-processors/get-GUID.epf`](external-data-processors/get-GUID.epf) - an external data processor that returns the UUID of an infobase object. Use it to look up the UUID of the API user required in [Step 3](#step-3-configuring-user-access). Run it in 1C:Enterprise mode via **File → Open**.
-
 ## Features
 
 * ✅ RESTful API with JSON request/response format
 * ✅ CORS support for web application integration
-* ✅ Authentication based on user UUID
+* ✅ Authentication via the 1C infobase user (HTTP Basic Auth)
 * ✅ Support for goods receipt documents (ПоступлениеТоваровУслуг)
 * ✅ Operations with item catalogs and organizational data
 * ✅ Automatic posting and document validation
@@ -71,12 +67,15 @@ Before installing this HTTP service, make sure you have:
 
    | URL Template        | HTTP Method | Handler Function            |
    | ------------------- | ----------- | --------------------------- |
-   | `/documents/{uuid}` | POST        | `ДокументыИзменитьДанные`   |
-   | `/documents/{uuid}` | OPTIONS     | `Options`                   |
-   | `/catalogs/{uuid}`  | GET         | `СправочникиПолучитьДанные` |
-   | `/catalogs/{uuid}`  | POST        | `СправочникиИзменитьДанные` |
-   | `/catalogs/{uuid}`  | OPTIONS     | `Options`                   |
+   | `/documents`        | POST        | `ДокументыИзменитьДанные`   |
+   | `/documents`        | OPTIONS     | `Options`                   |
+   | `/catalogs`         | GET         | `СправочникиПолучитьДанные` |
+   | `/catalogs`         | POST        | `СправочникиИзменитьДанные` |
+   | `/catalogs`         | OPTIONS     | `Options`                   |
+   | `/reports`          | GET         | `reportsCSVПолучитьДанные`  |
    | `/head`             | ANY         | `head`                      |
+
+   > The `/reports` template is available only in the 1C:UTP module.
 
 7. Save the HTTP service configuration
 
@@ -93,8 +92,8 @@ Before installing this HTTP service, make sure you have:
 
 ### Step 3: Configuring User Access
 
-1. Create or identify a user account for API access
-2. Note the user's **UUID** (the **УникальныйИдентификатор()** function returns the uuid value for an object saved in the database). Alternatively, open the [`external-data-processors/get-GUID.epf`](external-data-processors/get-GUID.epf) external data processor in 1C:Enterprise mode (**File → Open**) and get the UUID from there
+1. Create or identify an infobase user for API access (Administration → Users) and set a login and password for it
+2. Make sure the infobase user is linked to an item of the **Пользователи** catalog. The service takes the user from the session (`ПараметрыСеанса.ТекущийПользователь`): it is set as the responsible person in created documents, and the user's default settings (organization, warehouse, units of measure, etc.) are used for filling
 3. Make sure the user has the appropriate permissions:
 
    * Read/write access to catalogs: Counterparties, Items, Organizations, Warehouses
